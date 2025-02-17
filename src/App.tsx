@@ -1,11 +1,10 @@
 import { useEffect, useState, ChangeEvent } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
-import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useAuthenticator } from "@aws-amplify/ui-react";
 
 import {
   ScrollView,
-  View,
   Flex,
   Heading,
   Button,
@@ -84,12 +83,13 @@ function App() {
       ps: ps,
       lat: lat,
       lng: lng,
-      recent: recent
+      recent: recent,
     });
     setName("");
     setCustomer("");
     setLocation("");
     setYearcoml("");
+    console.log(todos);
   }
 
   const handleName = (e: ChangeEvent<HTMLInputElement>) => {
@@ -122,9 +122,9 @@ function App() {
   const handlePs = (e: ChangeEvent<HTMLInputElement>) => {
     setPs(Math.floor(parseFloat(e.target.value)));
   };
-    
+
   function deleteTodo(id: string) {
-    client.models.Todo.delete({ id })
+    client.models.Todo.delete({ id });
   }
 
   const openInNewTab = (url: any) => {
@@ -133,24 +133,29 @@ function App() {
 
   return (
     <main>
-      
       <Flex>
-      <Heading width="50vw" level={5}>
-        Hydraulic Modeling Group Sewer Software
-      </Heading>
+        <Heading width="50vw" level={5}>
+          Hydraulic Modeling Group Sewer Software
+        </Heading>
         <Button onClick={signOut} width={120}>
           Sign out
         </Button>
-        <Button onClick={createTodo} backgroundColor={"azure"}color={"red"}>+ new</Button>
+        <Button onClick={createTodo} backgroundColor={"azure"} color={"red"}>
+          + new
+        </Button>
         <Button
           role="link"
-          onClick={() => openInNewTab("https://showhazenproject.d3gxxduu8baji9.amplifyapp.com/")}
+          onClick={() =>
+            openInNewTab(
+              "https://showhazenproject.d3gxxduu8baji9.amplifyapp.com/"
+            )
+          }
         >
           Map
         </Button>
       </Flex>
       <Divider orientation="horizontal" />
-      < br/>
+      <br />
       <Flex direction={"row"}>
         <Input
           type="text"
@@ -219,7 +224,8 @@ function App() {
         <Input type="number" value={lat} onChange={handleLat} />
         <Input type="number" value={lng} onChange={handleLng} />
       </Flex>
-      <View
+
+      <ScrollView
         as="div"
         ariaLabel="View example"
         backgroundColor="var(--amplify-colors-white)"
@@ -227,12 +233,11 @@ function App() {
         //border="1px solid var(--amplify-colors-black)"
         // boxShadow="3px 3px 5px 6px var(--amplify-colors-neutral-60)"
         color="var(--amplify-colors-blue-60)"
-        height="45rem"
+        // height="45rem"
         // maxWidth="100%"
         padding="1rem"
-        width="100%"
+
       >
-        <ScrollView>
         <ThemeProvider theme={theme} colorMode="light">
           <Table caption="" highlightOnHover={true} variation="striped">
             <TableHead>
@@ -250,7 +255,7 @@ function App() {
             </TableHead>
             <TableBody>
               {todos.map((todo) => (
-                <TableRow onClick={() => deleteTodo(todo.id)} key={todo.yearcompl}>
+                <TableRow onClick={() => deleteTodo(todo.id)} key={todo.id}>
                   <TableCell>{todo.name}</TableCell>
                   <TableCell>{todo.customer}</TableCell>
                   <TableCell>{todo.location}</TableCell>
@@ -265,8 +270,7 @@ function App() {
             </TableBody>
           </Table>
         </ThemeProvider>
-        </ScrollView>
-      </View>
+      </ScrollView>
     </main>
   );
 }
